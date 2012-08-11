@@ -15,7 +15,10 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.content  is the entire content of the page as a string.
-  flunk "Unimplemented"
+  #flunk "Unimplemented"
+  index1 = page.body.index e1
+  index2 = page.body.index e2
+  assert index1 == nil or index2 == nil or index1 < index2
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -38,4 +41,25 @@ end
 
 Then /I should not see any movie/ do
   assert page.all('table#movies tbody tr').count == 0
+end
+
+Then /I should see movies sorted by title/ do
+  @movies = Movie.all(:order => "LOWER(title)")
+  count = @movies.length
+  0.upto(count-2) do |i|
+    mv1 = @movies[i]
+    mv2 = @movies[i+1]
+    Then %{I should see "#{mv1.title}" before "#{mv2.title}"}
+  end
+end
+
+
+Then /I should see movies sorted by release_date/ do
+  @movies = Movie.all(:order => "release_date")
+  count = @movies.length
+  0.upto(count-2) do |i|
+    mv1 = @movies[i]
+    mv2 = @movies[i+1]
+    Then %{I should see "#{mv1.release_date}" before "#{mv2.release_date}"}
+  end
 end
