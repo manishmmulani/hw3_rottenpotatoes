@@ -35,8 +35,17 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
 end
 
+When /I check all ratings/ do
+  Movie.all_ratings.each do |rating|
+    rating = "ratings_".concat(rating.strip)
+    When %{I check "#{rating}"}
+  end
+end
+
 Then /I should see all of the movies/ do
-  page.all('table#movies tbody tr').count.should == Movie.where("rating in ('PG', 'R', 'PG-13', 'G')").length
+  where_clause = "'".concat(Movie.all_ratings.join("','")).concat("'")
+  print "#{where_clause}\n"
+  page.all('table#movies tbody tr').count.should == Movie.where("rating in (#{where_clause})").length
 end
 
 Then /I should not see any movie/ do
