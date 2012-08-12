@@ -18,7 +18,7 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #flunk "Unimplemented"
   index1 = page.body.index e1
   index2 = page.body.index e2
-  assert index1 == nil or index2 == nil or index1 < index2
+  index1.should < index2
 end
 
 # Make it easier to express checking or unchecking several boxes at once
@@ -28,7 +28,7 @@ end
 When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   rating_list.split(",").each do |rating|
     rating = "ratings_".concat(rating.strip)
-    When %{I #{uncheck}check "#{rating}"}
+    step %{I #{uncheck}check "#{rating}"}
   end
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
@@ -38,13 +38,12 @@ end
 When /I check all ratings/ do
   Movie.all_ratings.each do |rating|
     rating = "ratings_".concat(rating.strip)
-    When %{I check "#{rating}"}
+    step %{I check "#{rating}"}
   end
 end
 
 Then /I should see all of the movies/ do
   where_clause = "'".concat(Movie.all_ratings.join("','")).concat("'")
-  print "#{where_clause}\n"
   page.all('table#movies tbody tr').count.should == Movie.where("rating in (#{where_clause})").length
 end
 
@@ -58,7 +57,7 @@ Then /I should see movies sorted by title/ do
   0.upto(count-2) do |i|
     mv1 = @movies[i]
     mv2 = @movies[i+1]
-    Then %{I should see "#{mv1.title}" before "#{mv2.title}"}
+    step %{I should see "#{mv1.title}" before "#{mv2.title}"}
   end
 end
 
@@ -69,6 +68,6 @@ Then /I should see movies sorted by release_date/ do
   0.upto(count-2) do |i|
     mv1 = @movies[i]
     mv2 = @movies[i+1]
-    Then %{I should see "#{mv1.release_date}" before "#{mv2.release_date}"}
+    step %{I should see "#{mv1.release_date}" before "#{mv2.release_date}"}
   end
 end

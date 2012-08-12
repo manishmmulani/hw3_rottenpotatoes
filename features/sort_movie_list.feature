@@ -22,14 +22,20 @@ Background: movies have been added to database
   And I am on the RottenPotatoes home page
 
 Scenario: sort movies alphabetically
-  When I follow "Movie Title"
+  When I check all ratings
+  And I press "Refresh"
+  And I follow "Movie Title"
   # your steps here
   Then I should be on the movies page
   And I should see movies sorted by title
+  And I should see all of the movies
 
 Scenario: sort movies in increasing order of release date
-  When I follow "Release Date"
+  When I check all ratings
+  And I press "Refresh"
+  And I follow "Release Date"
   # your steps here
   Then I should be on the movies page
   And I should see movies sorted by release_date
+  And I should see all of the movies
 

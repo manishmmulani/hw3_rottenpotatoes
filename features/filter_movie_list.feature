@@ -26,10 +26,16 @@ Scenario: restrict to movies with 'PG' or 'R' ratings
   And I uncheck the following ratings: PG-13, G
   And I press "Refresh"
   Then I should be on the movies page
-  And I should see "PG" within "table"
-  And I should see "R" within "table"
-  And I should not see "PG-13" within "table"
-  And I should not see "G" within "td" within "table"
+  And I should not see "Aladdin" within "table"
+  And I should see "The Terminator" within "table"
+  And I should see "When Harry Met Sally" within "table"
+  And I should not see "The Help" within "table"
+  And I should not see "Chocolat" within "table"
+  And I should see "Amelie" within "table"
+  And I should not see "2001: A Space Odyssey" within "table"
+  And I should see "The Incredibles" within "table"
+  And I should see "Raiders of the Lost Ark" within "table"
+  And I should not see "Chicken Run" within "table"
   # enter step(s) to check the 'PG' and 'R' checkboxes
   # enter step(s) to uncheck all other checkboxes
   # enter step to "submit" the search form on the homepage
