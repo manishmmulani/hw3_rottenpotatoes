@@ -36,7 +36,7 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
 end
 
 Then /I should see all of the movies/ do
-  assert page.all('table#movies tbody tr').count == Movie.all.length
+  page.all('table#movies tbody tr').count.should == Movie.where("rating in ('PG', 'R', 'PG-13', 'G')").length
 end
 
 Then /I should not see any movie/ do
