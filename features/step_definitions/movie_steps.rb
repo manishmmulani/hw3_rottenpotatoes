@@ -21,6 +21,13 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   index1.should < index2
 end
 
+Then /^the director of "(.+)" should be "(.+)"$/ do |title, director|
+  movie = Movie.find_by_title(title)
+  movie.should_not == nil
+  director = movie.director
+  director.should == director
+end
+
 # Make it easier to express checking or unchecking several boxes at once
 #  "When I uncheck the following ratings: PG, G, R"
 #  "When I check the following ratings: G"
